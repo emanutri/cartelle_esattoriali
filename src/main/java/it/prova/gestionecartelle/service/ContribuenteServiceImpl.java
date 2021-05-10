@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.gestionecartelle.model.Contribuente;
 import it.prova.gestionecartelle.repository.contribuente.ContribuenteRepository;
@@ -42,6 +43,11 @@ public class ContribuenteServiceImpl implements ContribuenteService {
 	@Override
 	public List<Contribuente> findByExample(Contribuente example) {
 		return repository.findByExample(example);
+	}
+
+	@Transactional(readOnly = true)
+	public List<Contribuente> cercaByCognomeENomeILike(String term) {
+		return repository.findByCognomeIgnoreCaseContainingOrNomeIgnoreCaseContainingOrderByNomeAsc(term, term);
 	}
 
 }

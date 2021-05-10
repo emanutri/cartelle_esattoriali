@@ -8,4 +8,6 @@ public interface CustomCartellaEsattorialeRepository {
 
 	public List<CartellaEsattoriale> findByExample(CartellaEsattoriale example);
 
+	public void cambiaStato(CartellaEsattoriale cartella);
+
 }

@@ -54,14 +54,13 @@
 							</div>	
 							
 							<div class="form-group col-md-3">
-								<label for="stato">Stato: </label>
-							    <select class="form-control" id="stato" name="stato">
-							    	<option value="">--Selezionare una voce--</option>
-							    	<option value="CREATA">Creata</option>
-							      	<option value="IN_VERIFICA">In Verifica</option>
-							      	<option value="CONCLUSA">Conclusa</option>
-							      	<option value="IN_CONTENZIOSO">In Contenzioso</option>
-							    </select>
+							<label for="stato">Stato: </label>
+								<select class="form-control" id="stato" name="stato">
+								<option value=""> -- Selezionare una voce -- </option>
+							      	<c:forEach items="${stato_cartella}" var="statoItem">
+							      		<option value="${statoItem}">${statoItem}</option>
+							      	</c:forEach>
+						    	</select>
 							</div>	
 							
 						</div>

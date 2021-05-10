@@ -1,6 +1,8 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions" %>
+
 <!doctype html>
 <html lang="it">
 <head>
@@ -59,18 +61,38 @@
 		                </thead>
 		                <tbody>
 		                	<c:forEach items="${contribuenti_list_attribute }" var="contribuenteItem">
-								<tr>
-									<td>${contribuenteItem.nome }</td>
-									<td>${contribuenteItem.cognome }</td>
-									<td><fmt:formatDate type = "date" value = "${contribuenteItem.dataDiNascita }" /></td>
-									<td>${contribuenteItem.codiceFiscale }</td>
-									<td>${contribuenteItem.indirizzo }</td>
-									<td>
-										<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath }/contribuente/show/${contribuenteItem.id }">Visualizza</a>
-										<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath }/contribuente/edit/${contribuenteItem.id }">Edit</a>
-										<a class="btn btn-outline-danger btn-sm" href="${pageContext.request.contextPath }/contribuente/delete/${contribuenteItem.id }">Delete</a>
-									</td>
-								</tr>
+   								<c:choose>
+								    <c:when test="${fn:contains(contribuenteItem.cartelle, 'IN_CONTENZIOSO')}">
+									    <tr class="table-danger">
+										   <td>${contribuenteItem.nome }</td>
+											<td>${contribuenteItem.cognome }</td>
+											<td><fmt:formatDate type = "date" value = "${contribuenteItem.dataDiNascita }" /></td>
+											<td>${contribuenteItem.codiceFiscale }</td>
+											<td>${contribuenteItem.indirizzo }</td>
+											<td>
+												<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath }/contribuente/show/${contribuenteItem.id }">Visualizza</a>
+												<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath }/contribuente/edit/${contribuenteItem.id }">Edit</a>
+												<a class="btn btn-outline-danger btn-sm" href="${pageContext.request.contextPath }/contribuente/delete/${contribuenteItem.id }">Delete</a>
+								       		</td>
+								    	</tr>
+								    </c:when>    
+   								    <c:otherwise> 
+									
+									    <tr>
+ 										    <td>${contribuenteItem.nome }</td>
+											<td>${contribuenteItem.cognome }</td>
+											<td><fmt:formatDate type = "date" value = "${contribuenteItem.dataDiNascita }" /></td>
+											<td>${contribuenteItem.codiceFiscale }</td>
+											<td>${contribuenteItem.indirizzo }</td>
+											<td>
+												<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath }/contribuente/show/${contribuenteItem.id }">Visualizza</a>
+												<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath }/contribuente/edit/${contribuenteItem.id }">Edit</a>
+												<a class="btn btn-outline-danger btn-sm" href="${pageContext.request.contextPath }/contribuente/delete/${contribuenteItem.id }">Delete</a>
+									       	</td>
+								        </tr>
+								        <br />
+								    </c:otherwise>
+								</c:choose> 
 							</c:forEach>
 		                </tbody>
 		            </table>

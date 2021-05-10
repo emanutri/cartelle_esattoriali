@@ -38,7 +38,7 @@ public class Contribuente {
 	private Date dataDiNascita;
 
 	@NotBlank(message = "{codiceFiscale.notblank}")
-	@Size(min = 16, max = 16, message = "Il valore inserito '${validatedValue}' deve essere lungo tra {min} e {max} caratteri")
+	@Size(max = 16, message = "Il valore inserito '${validatedValue}' deve essere lungo {max} caratteri")
 	@Column(name = "codiceFiscale")
 	private String codiceFiscale;
 
@@ -129,5 +129,38 @@ public class Contribuente {
 	public void setCartelle(List<CartellaEsattoriale> cartelle) {
 		this.cartelle = cartelle;
 	}
+
+	@Override
+	public String toString() {
+		return "Contribuente [id=" + id + ", nome=" + nome + ", cognome=" + cognome + ", dataDiNascita=" + dataDiNascita
+				+ ", codiceFiscale=" + codiceFiscale + ", indirizzo=" + indirizzo + ", cartelle=" + cartelle + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Contribuente other = (Contribuente) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+	
+	
 
 }

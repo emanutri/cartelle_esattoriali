@@ -12,6 +12,7 @@ import javax.persistence.TypedQuery;
 import org.apache.commons.lang3.StringUtils;
 
 import it.prova.gestionecartelle.model.CartellaEsattoriale;
+import it.prova.gestionecartelle.model.Stato;
 
 public class CustomCartellaEsattorialeRepositoryImpl implements CustomCartellaEsattorialeRepository {
 
@@ -52,6 +53,11 @@ public class CustomCartellaEsattorialeRepositoryImpl implements CustomCartellaEs
 		}
 
 		return typedQuery.getResultList();
+	}
+
+	@Override
+	public void cambiaStato(CartellaEsattoriale cartella) {
+		cartella.setStato(Stato.INVALIDATA);
 	}
 
 }

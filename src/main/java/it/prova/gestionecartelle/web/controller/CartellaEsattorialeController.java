@@ -5,18 +5,28 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import it.prova.gestionecartelle.model.CartellaEsattoriale;
+import it.prova.gestionecartelle.model.Contribuente;
+import it.prova.gestionecartelle.model.Stato;
 import it.prova.gestionecartelle.service.CartellaEsattorialeService;
 import it.prova.gestionecartelle.service.ContribuenteService;
 
@@ -57,7 +67,7 @@ public class CartellaEsattorialeController {
 		} else {
 			result.reject("contribuente");
 		}
-
+		
 		if (result.hasErrors()) {
 			return "cartellaesattoriale/insert";
 		}
@@ -70,6 +80,7 @@ public class CartellaEsattorialeController {
 	@GetMapping("/search")
 	public String searchCartella(Model model) {
 		model.addAttribute("contribuenti_list_attribute", contribuenteService.listAllElements());
+		model.addAttribute("stato_cartella", Stato.values());
 		return "cartellaesattoriale/search";
 	}
 
@@ -78,5 +89,79 @@ public class CartellaEsattorialeController {
 		List<CartellaEsattoriale> cartelle = cartellaService.findByExample(cartellaExample);
 		model.addAttribute("cartelle_list_attribute", cartelle);
 		return "cartellaesattoriale/list";
+	}
+
+	@GetMapping("/show/{idCartella}")
+	public String showCartella(@PathVariable(required = true) Long idCartella, Model model) {
+		model.addAttribute("show_cartella_attr", cartellaService.caricaSingoloElementoEager(idCartella));
+		return "cartellaesattoriale/show";
+	}
+
+	@GetMapping("/edit/{idCartella}")
+	public String editCartella(@PathVariable(required = true) Long idCartella, Model model) {
+		model.addAttribute("contribuente_list_attribute", contribuenteService.listAllElements());
+		model.addAttribute("cartella_attribute", cartellaService.caricaSingoloElementoEager(idCartella));
+		model.addAttribute("stato_cartella", Stato.values());
+		return "cartellaesattoriale/edit";
+	}
+
+	@PostMapping("/edit/update")
+	public String updateCartella(
+			@Valid @ModelAttribute("cartella_attribute") CartellaEsattoriale cartellaEsattoriale,
+			@Valid @ModelAttribute("idCartella") Long idCartella, BindingResult result,
+			RedirectAttributes redirectAttrs) {
+
+		if (cartellaEsattoriale.getContribuente() != null && cartellaEsattoriale.getContribuente().getId() != null) {
+			cartellaEsattoriale.setContribuente(
+					contribuenteService.caricaSingoloElemento(cartellaEsattoriale.getContribuente().getId()));
+		} else {
+			result.rejectValue("contribuente", "contribuente.notnull");
+		}
+
+		if (result.hasErrors()) {
+			return "cartellaesattoriale/edit";
+		}
+
+		cartellaEsattoriale.setId(idCartella);
+		cartellaService.aggiorna(cartellaEsattoriale);
+
+		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
+		return "redirect:/cartellaesattoriale";
+	}
+
+	@GetMapping(value = "/edit/searchContribuentiAjax", produces = { MediaType.APPLICATION_JSON_VALUE })
+	public @ResponseBody String searchContribuente(@RequestParam String term) {
+
+		List<Contribuente> listaContribuenteByTerm = contribuenteService.cercaByCognomeENomeILike(term);
+		return buildJsonResponse(listaContribuenteByTerm);
+	}
+
+	private String buildJsonResponse(List<Contribuente> listaContribuenti) {
+		JsonArray ja = new JsonArray();
+
+		for (Contribuente contribuenteItem : listaContribuenti) {
+			JsonObject jo = new JsonObject();
+			jo.addProperty("value", contribuenteItem.getId());
+			jo.addProperty("label", contribuenteItem.getNome() + " " + contribuenteItem.getCognome());
+			ja.add(jo);
+		}
+
+		return new Gson().toJson(ja);
+	}
+	
+	@GetMapping("/delete/{idCartella}")
+	public String controllaDeleteCartella(@PathVariable(required = true) Long idCartella, Model model) {
+		model.addAttribute("cartella_delete", cartellaService.caricaSingoloElementoEager(idCartella));
+		return "/cartellaesattoriale/delete";
+	}
+
+	@PostMapping("/delete/execute")
+	public String controllaDeleteCartella(@Valid @ModelAttribute("idCartella") Long idCartella, BindingResult result,
+			RedirectAttributes redirectAttrs) {
+		cartellaService.invalida(cartellaService.caricaSingoloElemento(idCartella));
+		//cartellaService.aggiorna();
+
+		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
+		return "redirect:/cartellaesattoriale";
 	}
 }

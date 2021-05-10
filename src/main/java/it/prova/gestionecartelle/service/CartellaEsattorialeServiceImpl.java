@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.gestionecartelle.model.CartellaEsattoriale;
 import it.prova.gestionecartelle.repository.cartellaesattoriale.CartellaEsattorialeRepository;
@@ -24,6 +25,11 @@ public class CartellaEsattorialeServiceImpl implements CartellaEsattorialeServic
 		return repository.findById(id).orElse(null);
 	}
 
+	@Transactional(readOnly = true)
+	public CartellaEsattoriale caricaSingoloElementoEager(Long id) {
+		return repository.findSingleCartellaEager(id);
+	}
+
 	@Override
 	public void aggiorna(CartellaEsattoriale cartellaEsattorialeInstance) {
 		repository.save(cartellaEsattorialeInstance);
@@ -37,6 +43,12 @@ public class CartellaEsattorialeServiceImpl implements CartellaEsattorialeServic
 	@Override
 	public void rimuovi(CartellaEsattoriale cartellaEsattorialeInstance) {
 		repository.delete(cartellaEsattorialeInstance);
+	}
+
+	@Override
+	public void invalida(CartellaEsattoriale cartellaEsattorialeInstance) {
+		repository.cambiaStato(cartellaEsattorialeInstance);
+		repository.save(cartellaEsattorialeInstance);
 	}
 
 	@Override

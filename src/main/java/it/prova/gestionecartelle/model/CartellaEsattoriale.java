@@ -44,6 +44,7 @@ public class CartellaEsattoriale {
 	private Contribuente contribuente;
 
 	public CartellaEsattoriale() {
+		this.stato = Stato.CREATA;
 	}
 
 	public CartellaEsattoriale(String descrizione, Double importo, Stato stato) {
@@ -99,5 +100,13 @@ public class CartellaEsattoriale {
 	public void setContribuente(Contribuente contribuente) {
 		this.contribuente = contribuente;
 	}
+
+	@Override
+	public String toString() {
+		return "CartellaEsattoriale [id=" + id + ", descrizione=" + descrizione + ", importo=" + importo + ", stato="
+				+ stato + "]";
+	}
+	
+	
 
 }

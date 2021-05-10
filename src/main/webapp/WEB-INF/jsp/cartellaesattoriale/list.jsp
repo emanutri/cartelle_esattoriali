@@ -62,9 +62,17 @@
 									<td>${cartellaItem.importo }</td>
 									<td>${cartellaItem.stato }</td>
 									<td>
-										<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath }/cartellaesattoriale/show/${contribuenteItem.id }">Visualizza</a>
-										<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath }/cartellaesattoriale/edit/${contribuenteItem.id }">Edit</a>
-										<a class="btn btn-outline-danger btn-sm" href="${pageContext.request.contextPath }/cartellaesattoriale/delete/${contribuenteItem.id }">Delete</a>
+										<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath }/cartellaesattoriale/show/${cartellaItem.id }">Visualizza</a>
+										<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath }/cartellaesattoriale/edit/${cartellaItem.id }">Edit</a>
+										<c:choose>
+										    <c:when test="${cartellaItem.stato == 'INVALIDATA'}">
+        										<a class="text-danger">invalidata</a>
+										    </c:when>    
+										    <c:otherwise>
+										    <a class="btn btn-outline-danger btn-sm" href="${pageContext.request.contextPath }/cartellaesattoriale/delete/${cartellaItem.id }">Invalida</a>
+										        <br />
+										    </c:otherwise>
+										</c:choose>
 									</td>
 								</tr>
 							</c:forEach>

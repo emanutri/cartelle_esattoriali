@@ -28,7 +28,7 @@
 	<main role="main" class="container">
 	
 		<%-- se l'attributo in request ha errori --%>
-		<spring:hasBindErrors  name="insert_cartella_attr">
+		<spring:hasBindErrors  name="contribuente_list_attribute">
 			<%-- alert errori --%>
 			<div class="alert alert-danger " role="alert">
 				Attenzione!! Sono presenti errori di validazione
@@ -48,42 +48,51 @@
 		    </div>
 		    <div class='card-body'>
 
-					<form:form method="post" modelAttribute="insert_cartella_attr" action="save" novalidate="novalidate" >
+					<form:form method="post" modelAttribute="cartella_attribute" action="update" novalidate="novalidate" >
 					
 						<div class="form-row">
 							<div class="form-group col-md-6">
-								<label for="descrizione">Descrizione: </label>
+								<label for="descrizione">Descrizione</label>
 								<spring:bind path="descrizione">
-									<input type="text" name="descrizione" id="descrizione" class="form-control ${status.error ? 'is-invalid' : ''}" placeholder="Inserire la descrizione" value="${insert_cartella_attr.descrizione }">
+									<input type="text" name="descrizione" id="descrizione" class="form-control ${status.error ? 'is-invalid' : ''}" placeholder="Inserire la descrizione" value="${cartella_attribute.descrizione }">
 								</spring:bind>
 								<form:errors  path="descrizione" cssClass="error_field" />
 							</div>
+							
 							<div class="form-group col-md-6">
-								<label for="importo">Importo </label>
+								<label for="importo">Importo</label>
 								<spring:bind path="importo">
-									<input type="number" class="form-control ${status.error ? 'is-invalid' : ''}" name="importo" id="importo" placeholder="Inserire l'importo" value="${insert_cartella_attr.importo }">
+									<input type="number" class="form-control ${status.error ? 'is-invalid' : ''}" name="importo" id="importo" placeholder="Inserire l'importo" value="${cartella_attribute.importo }">
 								</spring:bind>
 								<form:errors  path="importo" cssClass="error_field" />
 							</div>
-							
 						</div>
 						
 						<div class="form-row">	
 							
-							<div class="form-group col-md-6">
-								<label for="contribuenteSearchInput">Contribuente:</label>
-								<spring:bind path="contribuente">
-									<input class="form-control ${status.error ? 'is-invalid' : ''}" type="text" id="contribuenteSearchInput"
-										name="contribuenteInput" value="${insert_cartella_attr.contribuente.nome}${empty insert_cartella_attr.contribuente.nome?'':' '}${insert_cartella_attr.contribuente.cognome}">
-								</spring:bind>
-								<input type="hidden" name="contribuente" id="contribuenteId" value="${insert_cartella_attr.contribuente.id }">
-  								<form:errors  path="contribuente" cssClass="error_field" />
-							</div>
+							<label for="stato">Stato: </label>
+							<spring:bind path="stato">
+								<select class="form-control ${status.error ? 'is-invalid' : ''}" id="stato" name="stato" required>
+							      	<c:forEach items="${stato_cartella}" var="statoItem">
+							      		<option value="${statoItem}">${statoItem}</option>
+							      	</c:forEach>
+					    		</select>
+				    		</spring:bind>
+							<form:errors  path="stato" cssClass="error_field" />
 							
-						</div>
-						<input type = "hidden" name="stato" id="stato" value="${insert_cartella_attr.stato}">
-						<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Conferma</button>
+  						<div class="form-group col-md-6">	
+  								<label for="contribuenteSearchInput">Contribuente:</label>
+  							<spring:bind path="contribuente">
+  									<input class="form-control ${status.error ? 'is-invalid' : ''}" type="text" id="contribuenteSearchInput"
+  										name="contribuenteInput" value="${cartella_attribute.contribuente.nome}${empty cartella_attribute.contribuente.nome?'':' '}${cartella_attribute.contribuente.cognome}">
+  								</spring:bind>
+  								<input type="hidden" name="contribuente" id="contribuenteId" value="${cartella_attribute.contribuente.id }">
+  								<form:errors  path="contribuente" cssClass="error_field" />
+	  					</div>
+  						</div>
 						
+						<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Conferma</button>
+						<input type="hidden" name="idCartella" value="${cartella_attribute.id}">
 					</form:form>
 					
 					<%-- FUNZIONE JQUERY UI PER AUTOCOMPLETE --%>
@@ -91,7 +100,7 @@
 						$("#contribuenteSearchInput").autocomplete({
 							 source: function(request, response) {
 							        $.ajax({
-							            url: "../contribuente/searchContribuentiAjax",
+							            url: "../edit/searchContribuentiAjax",
 							            datatype: "json",
 							            data: {
 							                term: request.term,   

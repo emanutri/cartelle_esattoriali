@@ -17,4 +17,8 @@ public interface CartellaEsattorialeService {
 	public void rimuovi(CartellaEsattoriale cartellaEsattorialeInstance);
 
 	public List<CartellaEsattoriale> findByExample(CartellaEsattoriale example);
+
+	public Object caricaSingoloElementoEager(Long idCartella);
+
+	public void invalida(CartellaEsattoriale cartellaEsattorialeInstance);
 }
