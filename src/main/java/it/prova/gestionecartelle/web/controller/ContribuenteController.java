@@ -66,10 +66,9 @@ public class ContribuenteController {
 		return "contribuente/search";
 	}
 
-	// devo evidenziare i contribuenti con cartelle in contenzioso (jsp)
 	@PostMapping("/list")
 	public String listContribuenti(Contribuente contribuenteExample, ModelMap model) {
-		// la find by example è eager
+		
 		List<Contribuente> contribuenti = contribuenteService.findByExample(contribuenteExample);
 		model.addAttribute("contribuenti_list_attribute", contribuenti);
 		System.out.println(contribuenti);

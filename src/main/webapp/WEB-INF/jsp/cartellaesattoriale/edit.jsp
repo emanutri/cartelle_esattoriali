@@ -6,7 +6,7 @@
 <html lang="it">
 <head>
 	<jsp:include page="../header.jsp" />
-	<title>Inserisci nuovo</title>
+	<title>Modifica elemento</title>
 	
 	<!-- style per le pagine diverse dalla index -->
     <link href="${pageContext.request.contextPath }/assets/css/global.css" rel="stylesheet">
@@ -44,7 +44,7 @@
 		
 		<div class='card'>
 		    <div class='card-header'>
-		        <h5>Inserisci nuovo elemento</h5> 
+		        <h5>Modifica elemento</h5> 
 		    </div>
 		    <div class='card-body'>
 
@@ -74,7 +74,7 @@
 							<spring:bind path="stato">
 								<select class="form-control ${status.error ? 'is-invalid' : ''}" id="stato" name="stato" required>
 							      	<c:forEach items="${stato_cartella}" var="statoItem">
-							      		<option value="${statoItem}">${statoItem}</option>
+							      		<option value="${statoItem}"${cartella_attribute.stato == statoItem ? 'selected' : ''}>${statoItem}</option>
 							      	</c:forEach>
 					    		</select>
 				    		</spring:bind>
