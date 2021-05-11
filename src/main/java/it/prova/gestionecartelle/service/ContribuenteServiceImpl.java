@@ -24,6 +24,11 @@ public class ContribuenteServiceImpl implements ContribuenteService {
 	public Contribuente caricaSingoloElemento(Long id) {
 		return repository.findById(id).orElse(null);
 	}
+	
+	@Transactional(readOnly = true)
+	public Contribuente caricaSingoloElementoEager(Long id) {
+		return repository.findSingleContribuenteEager(id);
+	}
 
 	@Override
 	public void aggiorna(Contribuente contribuenteInstance) {

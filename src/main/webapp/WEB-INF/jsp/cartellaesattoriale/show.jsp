@@ -41,7 +41,7 @@
 				  <dd class="col-sm-9">${show_cartella_attr.stato}</dd>
 		    	</dl>
 		    	
-		    	<!-- info Regista -->
+		    	<!-- info Contribuente -->
 		    	<p>
 				  <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
 				    Info Contribuente
@@ -72,7 +72,7 @@
 				    
 				  </div>
 				</div>
-				<!-- end info Regista -->
+				<!-- end info Contribuente -->
 		    	
 		    </div>
 		    

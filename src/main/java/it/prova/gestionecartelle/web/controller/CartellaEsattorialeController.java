@@ -5,7 +5,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -15,17 +14,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
 import it.prova.gestionecartelle.model.CartellaEsattoriale;
-import it.prova.gestionecartelle.model.Contribuente;
 import it.prova.gestionecartelle.model.Stato;
 import it.prova.gestionecartelle.service.CartellaEsattorialeService;
 import it.prova.gestionecartelle.service.ContribuenteService;
@@ -59,15 +51,13 @@ public class CartellaEsattorialeController {
 	public String saveCartella(@Valid @ModelAttribute("insert_cartella_attr") CartellaEsattoriale cartellaEsattoriale,
 			BindingResult result, RedirectAttributes redirectAttrs) {
 
-		// se il regista è valorizzato dobbiamo provare a caricarlo perché
-		// ci aiuta in pagina
 		if (cartellaEsattoriale.getContribuente() != null && cartellaEsattoriale.getContribuente().getId() != null) {
 			cartellaEsattoriale.setContribuente(
 					contribuenteService.caricaSingoloElemento(cartellaEsattoriale.getContribuente().getId()));
 		} else {
 			result.reject("contribuente");
 		}
-		
+
 		if (result.hasErrors()) {
 			return "cartellaesattoriale/insert";
 		}
@@ -106,8 +96,7 @@ public class CartellaEsattorialeController {
 	}
 
 	@PostMapping("/edit/update")
-	public String updateCartella(
-			@Valid @ModelAttribute("cartella_attribute") CartellaEsattoriale cartellaEsattoriale,
+	public String updateCartella(@Valid @ModelAttribute("cartella_attribute") CartellaEsattoriale cartellaEsattoriale,
 			@Valid @ModelAttribute("idCartella") Long idCartella, BindingResult result,
 			RedirectAttributes redirectAttrs) {
 
@@ -129,26 +118,6 @@ public class CartellaEsattorialeController {
 		return "redirect:/cartellaesattoriale";
 	}
 
-	@GetMapping(value = "/edit/searchContribuentiAjax", produces = { MediaType.APPLICATION_JSON_VALUE })
-	public @ResponseBody String searchContribuente(@RequestParam String term) {
-
-		List<Contribuente> listaContribuenteByTerm = contribuenteService.cercaByCognomeENomeILike(term);
-		return buildJsonResponse(listaContribuenteByTerm);
-	}
-
-	private String buildJsonResponse(List<Contribuente> listaContribuenti) {
-		JsonArray ja = new JsonArray();
-
-		for (Contribuente contribuenteItem : listaContribuenti) {
-			JsonObject jo = new JsonObject();
-			jo.addProperty("value", contribuenteItem.getId());
-			jo.addProperty("label", contribuenteItem.getNome() + " " + contribuenteItem.getCognome());
-			ja.add(jo);
-		}
-
-		return new Gson().toJson(ja);
-	}
-	
 	@GetMapping("/delete/{idCartella}")
 	public String controllaDeleteCartella(@PathVariable(required = true) Long idCartella, Model model) {
 		model.addAttribute("cartella_delete", cartellaService.caricaSingoloElementoEager(idCartella));
@@ -159,7 +128,7 @@ public class CartellaEsattorialeController {
 	public String controllaDeleteCartella(@Valid @ModelAttribute("idCartella") Long idCartella, BindingResult result,
 			RedirectAttributes redirectAttrs) {
 		cartellaService.invalida(cartellaService.caricaSingoloElemento(idCartella));
-		//cartellaService.aggiorna();
+		// cartellaService.aggiorna();
 
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		return "redirect:/cartellaesattoriale";

@@ -1,4 +1,6 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fn" uri = "http://java.sun.com/jsp/jstl/functions" %>
 <!doctype html>
 <html lang="it">
 <head>
@@ -49,6 +51,33 @@
 				  <dt class="col-sm-3 text-right">Indirizzo: </dt>
 				  <dd class="col-sm-9">${show_contribuente_attr.indirizzo}</dd>
 		    	</dl>
+		    	
+		    	<!-- info Cartele -->
+		    	<jsp:useBean id="utility" class="it.prova.gestionecartelle.utility.UtilityCustom"/>
+		    	<p>
+				  <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+				    Info Cartelle Contribuente
+				  </a>
+				</p>
+				<div class="collapse" id="collapseExample">
+				  <div class="card card-body">
+				  	<dl class="row">
+					  <dt class="col-sm-3 text-right">Tot. Importo Cartelle:</dt>
+					  <dd class="col-sm-9">${utility.sommaTotCartelle(show_contribuente_attr)}</dd>
+				   	</dl>
+				   	<dl class="row">
+					  <dt class="col-sm-3 text-right">Tot. Concluso e Pagato:</dt>
+					  <dd class="col-sm-9">${utility.sommaCartelleConclusePagate(show_contribuente_attr)}</dd>
+				   	</dl>
+				   	<c:if test="${utility.sommaCartelleContenzioso(show_contribuente_attr)!=0.0}">
+				   	<dl class="row">
+				 		<dt class="col-sm-3 text-right text-danger">Tot. in Contenzioso:</dt>
+				  		<dd class="col-sm-9 text-danger">${utility.sommaCartelleContenzioso(show_contribuente_attr)}</dd>
+		    		</dl>
+				    </c:if>
+				  </div>
+				</div>
+				<!-- end info Cartelle -->
 		    	
 		    </div>
 		    

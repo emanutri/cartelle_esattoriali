@@ -80,15 +80,15 @@
 				    		</spring:bind>
 							<form:errors  path="stato" cssClass="error_field" />
 							
-  						<div class="form-group col-md-6">	
-  								<label for="contribuenteSearchInput">Contribuente:</label>
-  							<spring:bind path="contribuente">
-  									<input class="form-control ${status.error ? 'is-invalid' : ''}" type="text" id="contribuenteSearchInput"
-  										name="contribuenteInput" value="${cartella_attribute.contribuente.nome}${empty cartella_attribute.contribuente.nome?'':' '}${cartella_attribute.contribuente.cognome}">
-  								</spring:bind>
-  								<input type="hidden" name="contribuente" id="contribuenteId" value="${cartella_attribute.contribuente.id }">
-  								<form:errors  path="contribuente" cssClass="error_field" />
-	  					</div>
+	  						<div class="form-group col-md-6">	
+	  								<label for="contribuenteSearchInput">Contribuente:</label>
+	  							<spring:bind path="contribuente">
+	  									<input class="form-control ${status.error ? 'is-invalid' : ''}" type="text" id="contribuenteSearchInput"
+	  										name="contribuenteInput" value="${cartella_attribute.contribuente.nome}${empty cartella_attribute.contribuente.nome?'':' '}${cartella_attribute.contribuente.cognome}">
+	  								</spring:bind>
+	  								<input type="hidden" name="contribuente" id="contribuenteId" value="${cartella_attribute.contribuente.id }">
+	  								<form:errors  path="contribuente" cssClass="error_field" />
+		  					</div>
   						</div>
 						
 						<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Conferma</button>
@@ -96,11 +96,11 @@
 					</form:form>
 					
 					<%-- FUNZIONE JQUERY UI PER AUTOCOMPLETE --%>
-					<script>
+<!--  					<script>
 						$("#contribuenteSearchInput").autocomplete({
 							 source: function(request, response) {
 							        $.ajax({
-							            url: "../edit/searchContribuentiAjax",
+							            url: "${pageContext.request.contextPath }/contribuente/searchContribuentiAjax",
 							            datatype: "json",
 							            data: {
 							                term: request.term,   
@@ -128,7 +128,48 @@
 						        return false;
 						    }
 						});
-					</script>
+					</script>-->
+					
+					<script>
+                $("#contribuenteSearchInput").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                            url: "${pageContext.request.contextPath }/contribuente/searchContribuentiAjax",
+                            datatype: "json",
+                            data: {
+                                term: request.term,
+                            },
+                            success: function(data) {
+                                response($.map(data, function(item) {
+                                    return {
+                                        label: item.label,
+                                        value: item.value
+                                    }
+                                }))
+                            }
+                        })
+                    },
+                    respone: function (event, ui) {
+                        $('#contribuente').val(null);
+                    },
+                    //quando seleziono la voce nel campo deve valorizzarsi la descrizione
+                    focus: function(event, ui) {
+                        $("#contribuenteSearchInput").val(ui.item.label)
+                        $('#contribuente').val(ui.item.value);
+                        return false
+                    },
+
+                    minLength: 2,
+                    autofocus : true,
+                    delay : 500,
+                    //quando seleziono la voce nel campo hidden deve valorizzarsi l'id
+                    select: function( event, ui ) {
+                        $('#contribuenteId').val(ui.item.value);
+                        //console.log($('#registaId').val())
+                        return false;
+                    }
+                });
+            </script>
 					<!-- end script autocomplete -->	
 					
 		    

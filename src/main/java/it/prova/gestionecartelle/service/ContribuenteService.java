@@ -17,6 +17,8 @@ public interface ContribuenteService {
 	public void rimuovi(Contribuente contribuenteInstance);
 
 	public List<Contribuente> findByExample(Contribuente example);
-	
+
 	public List<Contribuente> cercaByCognomeENomeILike(String term);
+
+	public Contribuente caricaSingoloElementoEager(Long id);
 }
