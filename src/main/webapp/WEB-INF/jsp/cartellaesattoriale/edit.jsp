@@ -94,43 +94,9 @@
 						<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Conferma</button>
 						<input type="hidden" name="idCartella" value="${cartella_attribute.id}">
 					</form:form>
-					
-					<%-- FUNZIONE JQUERY UI PER AUTOCOMPLETE --%>
-<!--  					<script>
-						$("#contribuenteSearchInput").autocomplete({
-							 source: function(request, response) {
-							        $.ajax({
-							            url: "${pageContext.request.contextPath }/contribuente/searchContribuentiAjax",
-							            datatype: "json",
-							            data: {
-							                term: request.term,   
-							            },
-							            success: function(data) {
-							                response($.map(data, function(item) {
-							                    return {
-								                    label: item.label,
-								                    value: item.value
-							                    }
-							                }))
-							            }
-							        })
-							    },
-							//quando seleziono la voce nel campo deve valorizzarsi la descrizione
-						    focus: function(event, ui) {
-						        $("#contribuenteSearchInput").val(ui.item.label)
-						        return false
-						    },
-						    minLength: 2,
-						    //quando seleziono la voce nel campo hidden deve valorizzarsi l'id
-						    select: function( event, ui ) {
-						    	$('#contribuenteId').val(ui.item.value);
-						    	//console.log($('#contribuenteId').val())
-						        return false;
-						    }
-						});
-					</script>-->
-					
-					<script>
+				
+		<!-- inizio script autocomplete migliorato -->	
+			<script>
                 $("#contribuenteSearchInput").autocomplete({
                     source: function(request, response) {
                         $.ajax({

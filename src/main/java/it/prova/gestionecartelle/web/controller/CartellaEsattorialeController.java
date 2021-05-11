@@ -43,7 +43,9 @@ public class CartellaEsattorialeController {
 
 	@GetMapping("/insert")
 	public String createCartella(Model model) {
-		model.addAttribute("insert_cartella_attr", new CartellaEsattoriale());
+		CartellaEsattoriale cartella = new CartellaEsattoriale();
+		cartella.setStato(Stato.CREATA);
+		model.addAttribute("insert_cartella_attr", cartella);
 		return "cartellaesattoriale/insert";
 	}
 

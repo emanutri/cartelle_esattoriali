@@ -44,7 +44,6 @@ public class CartellaEsattoriale {
 	private Contribuente contribuente;
 
 	public CartellaEsattoriale() {
-		this.stato = Stato.CREATA;
 	}
 
 	public CartellaEsattoriale(String descrizione, Double importo, Stato stato) {
