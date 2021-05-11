@@ -127,10 +127,9 @@ public class CartellaEsattorialeController {
 	}
 
 	@PostMapping("/delete/execute")
-	public String controllaDeleteCartella(@Valid @ModelAttribute("idCartella") Long idCartella, BindingResult result,
+	public String controllaDeleteCartella(@ModelAttribute("cartella_delete") CartellaEsattoriale cartella, BindingResult result,
 			RedirectAttributes redirectAttrs) {
-		cartellaService.invalida(cartellaService.caricaSingoloElemento(idCartella));
-		// cartellaService.aggiorna();
+		cartellaService.invalida(cartellaService.caricaSingoloElemento(cartella.getId()));
 
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		return "redirect:/cartellaesattoriale";
