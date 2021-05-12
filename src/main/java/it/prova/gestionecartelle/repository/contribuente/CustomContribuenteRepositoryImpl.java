@@ -45,8 +45,6 @@ public class CustomContribuenteRepositoryImpl implements CustomContribuenteRepos
 			whereClauses.add(" c.indirizzo like :indirizzo ");
 			paramaterMap.put("indirizzo", "%" + example.getIndirizzo() + "%");
 		}
-		
-		
 
 		queryBuilder.append(!whereClauses.isEmpty() ? " and " : "");
 		queryBuilder.append(StringUtils.join(whereClauses, " and "));

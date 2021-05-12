@@ -105,7 +105,5 @@ public class CartellaEsattoriale {
 		return "CartellaEsattoriale [id=" + id + ", descrizione=" + descrizione + ", importo=" + importo + ", stato="
 				+ stato + "]";
 	}
-	
-	
 
 }

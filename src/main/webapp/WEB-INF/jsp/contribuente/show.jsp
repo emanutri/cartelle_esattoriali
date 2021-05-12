@@ -88,8 +88,6 @@
 		    </div>
 		</div>	
 	
-	
-	
 	<!-- end main container -->	
 	</main>
 	<jsp:include page="../footer.jsp" />

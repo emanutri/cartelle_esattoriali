@@ -20,7 +20,7 @@ public class UtilityCustom {
 			if (!cartellaItem.getStato().equals(Stato.INVALIDATA)) {
 				somma += cartellaItem.getImporto();
 			}
-			
+
 		}
 		return somma;
 
@@ -41,9 +41,9 @@ public class UtilityCustom {
 		}
 		return somma;
 	}
-	
+
 	public Double sommaCartelleContenzioso(Contribuente contribuenteItem) {
-		
+
 		List<CartellaEsattoriale> cartelleContribuente = new ArrayList<>();
 		Double somma = 0.0;
 

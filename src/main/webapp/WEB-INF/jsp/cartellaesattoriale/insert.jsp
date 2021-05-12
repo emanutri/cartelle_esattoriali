@@ -121,7 +121,6 @@
 						});
 					</script>
 					<!-- end script autocomplete -->	
-					
 		    
 			<!-- end card-body -->			   
 		    </div>

@@ -96,8 +96,6 @@
 								</spring:bind>
 								<form:errors  path="indirizzo" cssClass="error_field" />
 						</div>
-						
-						
 							
 						<button type="submit" name="submit" value="submit" id="submit" class="btn btn-primary">Conferma</button>
 						<input type="hidden" name="idContribuente" value="${contribuente_attribute.id}">

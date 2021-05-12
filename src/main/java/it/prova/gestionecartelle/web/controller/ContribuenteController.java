@@ -68,14 +68,14 @@ public class ContribuenteController {
 
 	@PostMapping("/list")
 	public String listContribuenti(Contribuente contribuenteExample, ModelMap model) {
-		
+
 		List<Contribuente> contribuenti = contribuenteService.findByExample(contribuenteExample);
 		model.addAttribute("contribuenti_list_attribute", contribuenti);
 		System.out.println(contribuenti);
 		return "contribuente/list";
 	}
 
-	//caricamento eager per calcolo cartelle
+	// caricamento eager per calcolo cartelle
 	@GetMapping("/show/{idContribuente}")
 	public String showContribuente(@PathVariable(required = true) Long idContribuente, Model model) {
 		model.addAttribute("show_contribuente_attr", contribuenteService.caricaSingoloElementoEager(idContribuente));

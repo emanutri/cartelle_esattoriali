@@ -127,8 +127,8 @@ public class CartellaEsattorialeController {
 	}
 
 	@PostMapping("/delete/execute")
-	public String controllaDeleteCartella(@ModelAttribute("cartella_delete") CartellaEsattoriale cartella, BindingResult result,
-			RedirectAttributes redirectAttrs) {
+	public String controllaDeleteCartella(@ModelAttribute("cartella_delete") CartellaEsattoriale cartella,
+			BindingResult result, RedirectAttributes redirectAttrs) {
 		cartellaService.invalida(cartellaService.caricaSingoloElemento(cartella.getId()));
 
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");

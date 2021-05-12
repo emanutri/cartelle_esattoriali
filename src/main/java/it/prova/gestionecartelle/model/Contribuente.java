@@ -160,7 +160,5 @@ public class Contribuente {
 			return false;
 		return true;
 	}
-	
-	
 
 }
